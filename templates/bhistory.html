@@ -1,0 +1,141 @@
+{% extends "layout.html" %}
+{% block content %}
+<html>
+<head><title>User Details</title>
+<style type="text/css">
+h1{text-align: center;}
+b{text-align: center;font-size: 18px;}
+#content  button[type="button"] {
+  background: url(/static/images/search.png);
+  background: -moz-linear-gradient(top,  url(/static/images/search.png) 90%);
+  background: -webkit-linear-gradient(top,  url(/static/images/search.png) 90%);
+  background: -o-linear-gradient(top,  url(/static/images/search.png) 90%);
+  background: -ms-linear-gradient(top,  url(/static/images/search.png) 90%);
+  background: linear-gradient(top,  url(/static/images/search.png) 90%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fee79a', endColorstr='#fec151',GradientType=0 );
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 50px;
+  -ms-border-radius: 50px;
+  -o-border-radius: 5px;
+  border-radius: 10px;
+  -webkit-box-shadow: 0 1px 0 rgba(255,255,255,0.8) inset;
+  -moz-box-shadow: 0 1px 0 rgba(255,255,255,0.8) inset;
+  -ms-box-shadow: 0 1px 0 rgba(255,255,255,0.8) inset;
+  -o-box-shadow: 0 1px 0 rgba(255,255,255,0.8) inset;
+  box-shadow: 0 1px 0 rgba(255,255,255,0.8) inset;
+  border: 1px solid black;
+  color: red;
+  cursor: pointer;
+  float: center;
+  font: bold 15px Helvetica, Arial, sans-serif;
+  height: 38px;
+  margin: -100px 1px 35px 15px;
+  position: relative;
+  text-shadow: 0 1px 0 rgba(255,255,255,0.5);
+  width: 38px;
+}
+#content  button[type="button"]:hover {
+  background: rgb(254,193,81);
+  background: url(/static/images/search.png);
+  background: -moz-linear-gradient(top,  url(/static/images/search.png) 100%);
+  background: -webkit-linear-gradient(top,  url(/static/images/search.png) 100%);
+  background: -o-linear-gradient(top,  url(/static/images/search.png) 100%);
+  background: -ms-linear-gradient(top,  url(/static/images/search.png) 100%);
+  background: linear-gradient(top,  url(/static/images/search.png) 100%);     
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fec151', endColorstr='#fee79a',GradientType=0 );
+}
+
+</style>
+</head><body bgcolor="DarkSeaGreen">
+<type id="user_id">
+<type id="book_id">
+<type id="status">
+<type id="doi">
+<type id="dor">
+<h1>Books Details:</h1><br/>
+	<div align="center"><form id="Form">Enter  Book ID 	:<input type="text" id="bid" name="bid" onmouseout="bookSearch()" /><br/>&nbsp;&nbsp;&nbsp; 
+  Book Name :<input type="text" name="btitle" id="btitle"><br/>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;Quantity :<input type="text" name="quantity" id="quantity">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<div align="center">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button type="button" style="cursor:pointer;" onclick="Search()"></button><br/>
+  </div></form></div>
+   <div><table  align="center"  bgcolor="white" class='stockdetail'>
+    </table></div><br/>
+	 <script src="{{ STATIC_URL }}js/min.js"></script>
+	 <script type="text/javascript">
+	 
+function bookSearch()
+   {
+     var bid = document.getElementById("bid").value;
+  $.ajax({
+    type:'POST',
+    url:'/stockdetails/',
+    data:{
+      bid:bid,
+
+      csrfmiddlewaretoken:'{{csrf_token}}',
+    },
+  success : function(response)
+    {
+  console.log(response);
+  // response.style.display = "none";
+  document.getElementById('btitle').value=response.btitle;
+  document.getElementById('quantity').value=response.quantity;
+  if(response=='none'){alert('Book ID DOES NOT EXISTS !!!!!!!!!')}
+      },
+    });
+   }
+
+    
+    
+function Search()
+{
+   var bid = document.getElementById("bid").value;
+
+  
+      
+      $.ajax({
+               type: "POST",
+               url: '/bhistory/',
+                data: {
+                     // post:'POST',
+                     bid:bid,
+                     csrfmiddlewaretoken: '{{csrf_token}}',
+                      },
+    success : function(response) {
+      var data=response['data'];
+       var str_head = '<th> Book ID </th><th> Book Name </th><th> User Id </th><th> User Name </th><th> Status </th><th> DateofIssue </th><th> dateofReturn </th>'
+         var startstr = '';
+         var str = '';
+         $('.stockdetail').empty();
+          
+
+        console.log(data)
+        if(response=='none'){alert('Book ID DOES NOT EXISTS !!!!!!!!!')}
+            for (i=0; i<data.length; i++)
+               { 
+               var bid = data[i]['bid'];
+               var btitle = data[i]['btitle'];
+               // var quantity = data[i]['quantity'];
+               var uid = data[i]['uid'];
+               var uname = data[i]['uname'];
+               var status = data[i]['status'];
+               var doi = data[i]['doi'];
+               var dor = data[i]['dor'];
+                
+               str += '<tr><td>'+bid+'</td><td>'+btitle+'</td><td>'+uid+'</td><td>'+uname+'</td><td>'+status+'</td><td>'+doi.split(" ")[0]+'</td><td>'+dor.split(" ")[0]+'</td></tr>';
+        
+               }
+               
+               var html = '<table><tr>'+str_head +'</tr>'+ str+'</table>';
+               console.log(html)
+               $('.stockdetail').append(html)  
+                 },
+    });
+ }
+   
+
+  	</script></body>
+    </html>
+	 {% endblock %}
+
+
+

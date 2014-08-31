@@ -1,0 +1,109 @@
+
+
+
+<html><title>VALUATION</title>
+<head><style type="text/css">
+h1 {
+    text-shadow: 5px 5px 5px blue;
+    color: white;
+    font-size: 40px;
+
+}
+.menu
+{
+    height: 25px;
+    background-color: #111111;
+}
+
+.menu a 
+{
+    color : gray;
+    text-decoration : none;    
+}
+
+.menu a:hover
+{
+    color : white;
+    text-decoration : none;    
+}
+
+.list
+{
+    list-style-type : none;
+    padding:0;
+}
+
+.item
+{
+    position     : relative;
+    display      : inline-block;
+    vertical-align : top;
+    width        : 150px;   
+}
+
+.item>.list
+{
+    display : none;
+    background-color : white;
+}
+
+.item:hover>.list
+{
+    display : block;    
+}
+
+a{text-decoration: none;font-size: 20px;}
+  
+</style></head>
+<body>
+<div id ="header">
+<h1 style="margin-bottom:0;height:50px;background-color:#3b5998;text-align:center;">ABDULLAH - IBN - MASWOOD - QURAN - ACADEMY</h1></div>
+<a class="menu_links" onclick="displayData(11,1,0,'A')" onmouseover="" style="cursor: pointer;"></a>
+<div align="center" id="menu" style="background-color:#8b9dc3;height:550px;width:275px;float:left;"><br/><br/><br/>
+<b><h1> MAIN MENU </b><br><br></h1>
+        <br><li class="item"><a hrf=''> -- Family</a></br>
+            <ul class="list">
+                <li class="item"><a href="/family/"> --  New </a></li>
+                <li class="item"><a href="/display/"> -- Update </a></li>
+                <li class="item"><a href="/familydisplay/"> -- Display </a></li>
+            </ul>
+            </li>
+        </ul></br>
+        <br><li class="item"><a href=''>&nbsp;&nbsp;&nbsp;-- Members</a></br>
+            <ul class="list">
+                <li class="item"><a href="/members/"> -- New</a></li>
+               <!--  <li class="item"><a href="/display/">Edit</a></li> -->
+                <li class="item"><a href="/memdis/"> -- Display</a></li>
+            </ul>
+            </li>
+        </ul></br>
+        <br><li class="item"><a href=''>&nbsp;&nbsp;&nbsp;&nbsp;-- Attendance</a></br>
+            <ul class="list">
+                <li class="item"><a href="/addclass/"> -- New Class</a></li>
+               <!--  <li class="item"><a href="/display/">Edit</a></li> -->
+                <li class="item"><a href="/classlist/"> -- Attendance</a></li>
+                <li class="item"><a href='/checkAttendance/'> -- Check Status</a></li>
+            </ul>
+            </li>
+        </ul></br>
+        <br><li class="item"><a href=''>-- Events</a></br>
+            <ul class="list">
+                <li class="item"><a href="/AddEvent/"> -- New Event</a></li>
+                <li class="item"><a href='/getEvents/'> -- Add Families</a></li>
+                <li class="item"><a href='/DisplayEventFamily/'> -- Display Events</a></li>
+            </ul>
+            </li>
+        </ul></br>  
+        <br><li class="item"><a href='/about/'> -- About</a></li></br>
+        <br><li class="item"><a href="/flogout"> -- Logout</a></li></br>
+        </div>
+
+        <div align="center" id="content" style="height:475px;">
+        {% block content %}
+        {% endblock %}
+        </div>
+<div id="footer"><h3 style="margin-top:0;height:20px;color:#f7f7f7;clear:both;background-color:#3b5998;text-align:center;">Copyright @ ithoughtz.com </h3></div>
+
+
+</body>
+</html>

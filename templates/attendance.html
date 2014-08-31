@@ -1,0 +1,154 @@
+{% extends "flayout.html" %}
+{% block content %}
+<html>
+<body bgcolor="F0F8FF">
+
+
+    <br>Class name:</h1> <input type="text" id="subject" name="subject"></br>
+
+    <br>Category :</br>
+    <br><input type="radio" name="time" value="morning">morning</br>
+    <input type="radio" name="time" value="evening">Evening<br><br>
+
+    <br>Gender :</br>
+    <br><input type="radio" name="sex" value="male">Male</br>
+    <input type="radio" name="sex" value="female">Female
+
+
+    <div id="showhide">
+        <table  border="1" bgcolor="white" class='familyclass'>
+        </table>
+    </div><br>
+    <a href="#" onclick="javascript:show('showhide');">Show</a> 
+    <a href="#" onclick="javascript:hide('showhide');">Hide </a><br><br>
+    <div><br><button id="save" type="save" onclick="save()">Save</button></br></div>
+
+
+
+<script src="{{ STATIC_URL }}js/min.js"></script>
+<script type="text/javascript"> 
+
+
+    function hide(item)
+        {          
+        obj = document.getElementById(item);
+        obj.style.display = "none"
+        }
+
+    function show(item)
+        {          
+        obj = document.getElementById(item);
+        obj.style.display = "block"
+
+        var input_gender = document.getElementsByName('sex');
+
+        if (input_gender[0].checked) 
+            {
+            value = input_gender[0].value;
+            var gender = value;
+            } 
+        else if(input_gender[1].checked) 
+            {
+            var gender = input_gender[1].value;
+            }
+        
+
+        console.log(gender)
+        $.ajax({
+               type: "POST",
+               url: '/attendance/',
+               data: {
+                     post1:'post1',
+                     gender: gender,
+                     csrfmiddlewaretoken: '{{csrf_token}}',
+                      },
+        
+                success: function (response)
+                    {
+                    console.log(response)
+                    var data=response['data'];
+                    var startstr = '';
+                    for (i=0; i<data.length; i++)
+                       { 
+                       var name = data[i][0];
+                       var code = data[i][1];
+                       var name = name.toString();
+                       var code = code.toString();
+                       
+                       // console.log(name, code)
+                       var str = startstr.concat('<tr><th>Name</th><th style="width: 40px;"> ID <th>Select</th>');
+                       var res = str.concat('<tr name="name"><td >', name, '</td><td>', code ,'</td><td><div><input type="checkbox" name="attendance" value="attendance"></div>');
+                       $('.familyclass').append(res)  
+                       }
+                    }
+                });
+      
+        }       
+    
+
+    function save()
+        {   
+        
+        var all_data = [];
+        var sub = document.getElementById("subject").value; 
+        var x = document.getElementsByName("name");
+        var time = document.getElementsByName("time");
+
+        if (time[0].checked) 
+            {
+            value = time[0].value;
+            var timezon = value;
+            } 
+        else if(time[1].checked) 
+            {
+            var timezon = time[1].value;
+            }
+
+        if(timezon==undefined){ var timezon = ''}
+
+        for(var i=0;i<x.length;i++)
+           {
+         var data_dict = {};
+         if(x[i].getElementsByTagName('input')[0].checked == true)
+         {
+         data_dict['name'] = x[i].getElementsByTagName('td')[0].innerText;
+         data_dict['person_code'] =x[i].getElementsByTagName('td')[1].innerText;
+         // data_dict['attendance'] = x[i].getElementsByTagName('input')[0].checked;
+         all_data.push(data_dict)
+     }
+           }
+        console.log(all_data)
+        var data = {
+              subject: sub,
+              classlist:all_data, 
+              timezone:timezon,             
+              };
+    $.ajax({
+        type: "POST",
+        url: '/attendance/',
+        data:{data:JSON.stringify(data),
+            csrfmiddlewaretoken: '{{csrf_token}}',
+            post2:'post2',} ,
+        success: function (response) {
+            var data = response['data']
+            if (data=='notexists'){alert('Fill All The Columns !!!!')}
+            if (data=='saved'){alert('Entries Have Been Saved ! ! !')}
+            if (data=='exists'){alert('The Class Name have been already Saved !!')}
+            
+            // console.log(response);
+        },
+
+       });
+
+            
+
+        }
+  
+ 
+
+
+
+</script>
+</body>
+</html>
+{% endblock %}

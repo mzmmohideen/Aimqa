@@ -1,0 +1,119 @@
+{% extends "flayout.html" %}
+{% block content %}
+
+<html>
+
+<body bgcolor="#f4f4f4">
+
+<p><h2 align="left">Attendance --> Mark_Students For Class ></p></h2> 
+
+<a href="#" onclick="javascript:subject('subject');">Classes:</a>
+  <select id="selectElementId"></select><br>
+
+<table  align="center" height="300" width="200" border="1" bgcolor="#FFA500" class='familyclass'></table><br>
+<div><button id="save" type="save" onclick="display()">Display</button></div><br>
+<div><button id="save" type="save" onclick="save()">Save</button></div>
+
+<script src="{{ STATIC_URL }}js/min.js"></script>
+<script type="text/javascript">
+
+function subject()  
+    {    
+    $.ajax({
+            type: "POST",
+            url: '/classlist/',
+            data: {
+                  csrfmiddlewaretoken: '{{csrf_token}}',
+                  },
+    success : function(response)
+      {
+      select = document.getElementById('selectElementId');
+      select.innerHTML = '';
+      for (var i = 0; i<response.length; i++){
+          var opt = document.createElement('option');
+          opt.value = response[i];
+          opt.innerHTML = response[i];
+          select.appendChild(opt);
+          }
+        },
+    });
+
+    }
+
+function display(){
+    var classlist = document.getElementById("selectElementId");
+    var classname = classlist.options[classlist.selectedIndex].value;
+    $.ajax({
+           type: "POST",
+           url: '/getStudents/',
+           data: {
+                 classname: classname,
+                 csrfmiddlewaretoken: '{{csrf_token}}',
+                 },
+            success: function (response)
+                { 
+                var len = response.length;                           
+                var str_head = '<th>NAME</th><th>ADD</th>';
+                var startstr = '';
+                var str = '';           
+                $('.familyclass').empty();
+            if (len != 0){
+              for (i=0; i<len; i++)
+                  { 
+                  var data = response[i];
+                  str += '<tr name="student"><td>'+data['name']+' '+data['personcode']+'</td><td><div><input type="checkbox" name="attendance" value="'+data['name']+' '+data['personcode']+'"></div></td></tr>';           
+                  }
+            var html = '<tr>'+str_head +'</tr>'+str
+            $('.familyclass').append(html);
+              }
+            else {alert('No students in this Class')}      
+            $('.familyclass').append('');
+            },
+       });
+  }
+
+  function save(){
+    var classlist = document.getElementById("selectElementId");
+    var classname = classlist.options[classlist.selectedIndex].value;
+    var students = document.getElementsByName('student');
+    var all_data = [];
+    for(var i=0;i<students.length;i++)
+       {
+        var item = students[i];
+        if(item.getElementsByTagName('input')[0].checked == true)
+            {
+             all_data.push(item.getElementsByTagName('td')[0].innerText);
+            }
+        }
+        var DATA = {
+        classname: classname,
+        studentData: all_data
+        }
+      
+      if (all_data.length != 0){
+        $.ajax({
+          type : 'POST',
+          url : '/saveAttendance/',
+          data:{
+                data: JSON.stringify(DATA),
+                csrfmiddlewaretoken: '{{csrf_token}}',
+                },
+          success: function(response){
+            if(response == 'success')alert('Successfully Added to '+classname)
+            else if(response == 'exists')alert('Already marked attendance this day to the class- '+classname)
+            },
+        });
+      }
+    }
+
+$( document ).ready(function() {
+    console.log( "ready!" );
+    subject();
+});
+  
+</script>
+
+</body>
+</html>
+
+{% endblock %}

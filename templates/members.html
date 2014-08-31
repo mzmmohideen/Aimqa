@@ -1,0 +1,179 @@
+{% extends "flayout.html" %}
+
+{% block content %}
+
+<html>
+<p><h2 align="left">Family_Members --> New ></p></h2> 
+
+<body bgcolor="#f4f4f4">
+{% csrf_token %}
+
+
+
+  
+<h3><div><br>Ration ID :<input type='text' onPointerMove="keyPress()" name="rationid" id='rationid'></br></div>
+<table  align="center" border="1" bgcolor="#FFA500" class='familyclass'></table>
+<!-- <input type="text" onkeydown="keyPress()" size="20"/> -->
+
+<br>Person Name: <input type="text" id='name' name="name"></br>
+<input type="radio" name="sex" value="male">Male
+<input type="radio" name="sex" value="female">Female
+
+<br>Person code:<input type="text" id='personcode' name="personcode"></br>
+<br>Age: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="text" id="age" name="age"></br> 
+<br>Qualfication: &nbsp;<input type="text" id='qualification' name="qualification"></br>
+<br>Occupation: &nbsp;&nbsp;<input type="text" id='occupation' name="occupation"></br>
+
+<button id="myButton" class="float-left submit-button" onclick="document.getElementById('optional_for_student').style.display='block';">Is Student?</button>
+<div id="optional_for_student" style="display:none;">
+Standard: <input type="text" id='standard' name="Standard">
+Institution: <input type="text" id='institution' name="Institution">
+Grade: <input type="text" id='grade' name="Grade"></div></h3>
+
+
+<div><br><button id="add" onclick="adde()">Save</button></br></div>
+
+
+
+</body>
+
+</html>
+<script src="{{ STATIC_URL }}js/min.js"></script>
+<script type="text/javascript">
+$(document).on('keydown', '#rationid', function(e) {  
+  var keyCode = e.keyCode || e.which; 
+
+  if (keyCode == 9) { 
+    // e.preventDefault();
+    // call custom function here
+    keyPress();
+  } 
+});
+
+// $('#rationid').live('keypress', function(e) {
+//     if (e.keyCode === 9) {
+//         e.preventDefault();
+//         // do work
+//     }
+// });
+
+  function keyPress()
+    {
+    var rationid = document.getElementById("rationid").value;
+    // alert('e')
+    $.ajax({
+               type: "POST",
+               url: '/rationid_details/',
+                data: {
+                     rationid: rationid,
+                     // post:'POST',
+                     csrfmiddlewaretoken: '{{csrf_token}}',
+                      },
+    success : function(response)
+    {
+
+      console.log(response);
+      var data=response['data'];
+      var str_head = '<th>STREET</th><th>CITY</th><th>CODE</th>'
+      var startstr = '';
+      var str = '';
+      
+            // for (i=0; i<data.length; i++)
+               { 
+               var street = data['street'];
+               var city = data['city'];
+               var code = data['code'];
+               
+               str += '</tr><td>'+street+'</td><td>'+city+'</td><td>'+code+'</td></tr>';
+
+               // var res = str.concat('<tr>rationid="rationid"><td >', rationid, '</td><td>', street,'</td><td></td></tr>' city,'</td><td>' code,'</td><td></td></tr>')
+            
+               }
+               console.log(str)
+               var html = '<table><tr>'+str_head +'</tr>'+ str+'</table>';
+
+               $('.familyclass').empty();
+               $('.familyclass').append(html)  
+
+    },
+    });
+  }
+  function adde() {
+    // alert('oo')
+
+    // console.log(rationid.value)
+
+    var name = document.getElementById("name").value;
+    // console.log(name.value);
+    var x = document.getElementsByName("sex");
+
+    if (x[0].checked) {
+        value = x[0].value;
+        var gender = value;
+
+    } else {
+        var gender = x[1].value;
+    }
+    var ration_id = document.getElementById("rationid").value;
+    var personcode = document.getElementById("personcode").value;
+    var age = document.getElementById("age").value;
+    var qualification = document.getElementById("qualification").value;
+    var occupation = document.getElementById("occupation").value;
+
+    var standard = document.getElementById("standard").value;
+    var institution = document.getElementById("institution").value;
+    var grade = document.getElementById("grade").value;
+    // var subject = document.getElementById("subject").value;
+
+    var all = {
+        rationcard: ration_id,
+        name: name,
+        personcode: personcode,
+        gender: gender,
+        age: age,
+        qualification: qualification,
+        occupation: occupation,
+        standard: standard,
+        institution: institution,
+        grade: grade,
+
+    };
+    console.log(all)
+    
+    $.ajax({
+        type: "POST",
+        url: '/members/',
+        data: {
+            all: all,
+            csrfmiddlewaretoken: '{{ csrf_token }}',
+        },
+
+        success: function (response) {
+
+        if (response=='notexists'){alert('sorry !!! The ration ID entered is not exists')}
+        if (response=='notcomplete'){alert('You have to fill all the columns')}
+        if (response=='personcode'){alert('Person Code should not be Empty !!!')}
+        if (response=='personcode_not_unique'){alert('Person Code Already Exists !!!')}
+        if (response=='saved'){alert('Your Entries have been Saved !!!')}
+
+            console.log(response);
+        },
+
+    });
+document.getElementById("rationid").value='';
+document.getElementById("name").value='';
+document.getElementById("personcode").value='';
+document.getElementById("age").value='';
+document.getElementById("qualification").value='';
+document.getElementById("occupation").value='';
+document.getElementById("standard").value='';
+document.getElementById("institution").value=''; 
+document.getElementById("grade").value='';  
+}
+</script>
+
+
+
+<!-- <button id="Edit" type="edit">Edit</button> -->
+
+{% endblock %}

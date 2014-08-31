@@ -1,0 +1,27 @@
+{% extends "mlayout.html" %}
+{% block content %}
+{% csrf_token %}
+<html>
+<head>
+	<title>Member Home</title>
+	<style type="text/css">
+	h3{ text-align: center;
+	   text-shadow: 5px 5px 5px #FF0000;
+	   color: white;
+	   font-size: 35px;}
+	p {
+    text-shadow: 5px 5px 5px yellow;
+    color: white;
+    font-size: 55px;
+
+}
+	</style>
+</head>
+<body background="/static/images/islamic.jpg"></br/><br/></br/>
+<p>Welcome<br/>
+ to<br/>
+  Ahlus Sunnah Library and Guidance Centre,<br/></p>
+<h3>Alandur,Chennai-600016.</h3>
+ <!-- <img src="/home/ithoughtz/repocitory/aslgc/static/image/loginbg.jpg" alt="Welcome Image"> -->
+</body></html>
+{% endblock %}

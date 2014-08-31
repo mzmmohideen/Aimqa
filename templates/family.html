@@ -1,0 +1,84 @@
+{% extends "flayout.html" %}
+{% block content %}
+<head>
+    <title>RATIONCARD DETAILS</title>
+</head>
+<html>
+<body bgcolor="#f4f4f4">
+{% csrf_token %}
+
+
+
+<p><h2 align="left">Ration_ID --> New ></p></h2>
+
+
+<div align="center">
+
+<h2><br>Ration_ID :<input type="text" id='rationid' name="rationid"></br>
+
+
+
+
+<br>Street: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id='street' name="street"></br>
+<br>City: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id='city' name="city"></br>
+<br>Zip_Code: <input type="text" id='code' name="code"></br></h2> </div>  
+
+
+
+
+
+<br><button id="save"  type="save" onclick="save()">Save</button></br>
+
+
+
+
+
+
+<!-- <a href="#" onclick="javascript:show('showhide');">Show</a>  -->
+<!-- </form> -->
+
+
+<script src="{{ STATIC_URL }}js/min.js"></script>
+<script type="text/javascript">
+    function save() {
+        var rationid = document.getElementById("rationid").value;
+        var street = document.getElementById("street").value;
+        var city = document.getElementById("city").value;
+        var code = document.getElementById("code").value;
+        var all = {
+            rationcard: rationid,
+            street: street,
+            city: city,
+            code: code,
+        };
+
+        console.log(all)
+
+        $.ajax({
+                type: "POST",
+                url: '/family/',
+                data: {
+                    all: all,
+                    // all:JSON.stringify(all),
+                    csrfmiddlewaretoken: '{{csrf_token}}',
+                },       
+            success: function (response) {
+                if (response=='exists'){alert('sorry !!! The ration ID entered is already exists')}
+                else if (response=='notcomplete'){alert('You have to fill all the columns')}
+                else if (response=='saved'){alert('The Ration_ID have been saved Added ! ! !')}
+                
+
+                console.log(response);
+            },
+            });
+        document.getElementById("rationid").value='';
+        document.getElementById("street").value='';
+        document.getElementById("city").value='';
+        document.getElementById("code").value='';
+    }
+</script>
+</body>
+</html>
+
+
+{% endblock %}
