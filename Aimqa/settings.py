@@ -16,9 +16,9 @@ ADMINS = (
 )
 
 MANAGERS = ADMINS
-DATABASE_ROUTERS = ['valuation.routers.FamilyRouter',]
+# DATABASE_ROUTERS = ['valuation.routers.FamilyRouter',]
 
-DATABASE_APPS_MAPPING = {'valuation': 'fam'}
+# DATABASE_APPS_MAPPING = {'valuation': 'fam'}
 
 DATABASES = {    
     'default': {
@@ -38,12 +38,12 @@ DATABASES = {
         # 'PORT': '',                      # Set to empty string for default.
                       # Set to empty string for default.
     # },
-    'fam': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'family',
-        'USER': '',
-        'PASSWORD':'',
-    },
+    # 'fam': {
+    #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
+    #     'NAME': 'family',
+    #     'USER': '',
+    #     'PASSWORD':'',
+    # },
 }
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False

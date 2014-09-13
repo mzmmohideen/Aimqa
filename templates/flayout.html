@@ -2,14 +2,21 @@
 
 
 <html><title>VALUATION</title>
-<head><style type="text/css">
+<head>
+<meta charset='utf-8'>
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <link rel="stylesheet" href="/static/css/styles.css/styles.css">
+   <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+   <script src="/static/js/script.js"></script>
+<style type="text/css">
 h1 {
     text-shadow: 5px 5px 5px blue;
     color: white;
     font-size: 40px;
 
 }
-.menu
+/*.menu
 {
     height: 25px;
     background-color: #111111;
@@ -51,54 +58,51 @@ h1 {
 {
     display : block;    
 }
-
+*/
 a{text-decoration: none;font-size: 20px;}
   
 </style></head>
 <body>
 <div id ="header">
 <h1 style="margin-bottom:0;height:50px;background-color:#3b5998;text-align:center;">ABDULLAH - IBN - MASWOOD - QURAN - ACADEMY</h1></div>
-<a class="menu_links" onclick="displayData(11,1,0,'A')" onmouseover="" style="cursor: pointer;"></a>
+<!-- <a class="menu_links" onclick="displayData(11,1,0,'A')" onmouseover="" style="cursor: pointer;"></a> -->
 <div align="center" id="menu" style="background-color:#8b9dc3;height:550px;width:275px;float:left;"><br/><br/><br/>
 <b><h1> MAIN MENU </b><br><br></h1>
-        <br><li class="item"><a hrf=''> -- Family</a></br>
-            <ul class="list">
-                <li class="item"><a href="/family/"> --  New </a></li>
-                <li class="item"><a href="/display/"> -- Update </a></li>
-                <li class="item"><a href="/familydisplay/"> -- Display </a></li>
-            </ul>
-            </li>
-        </ul></br>
-        <br><li class="item"><a href=''>&nbsp;&nbsp;&nbsp;-- Members</a></br>
-            <ul class="list">
-                <li class="item"><a href="/members/"> -- New</a></li>
-               <!--  <li class="item"><a href="/display/">Edit</a></li> -->
-                <li class="item"><a href="/memdis/"> -- Display</a></li>
-            </ul>
-            </li>
-        </ul></br>
-        <br><li class="item"><a href=''>&nbsp;&nbsp;&nbsp;&nbsp;-- Attendance</a></br>
-            <ul class="list">
-                <li class="item"><a href="/addclass/"> -- New Class</a></li>
-               <!--  <li class="item"><a href="/display/">Edit</a></li> -->
-                <li class="item"><a href="/classlist/"> -- Attendance</a></li>
-                <li class="item"><a href='/checkAttendance/'> -- Check Status</a></li>
-            </ul>
-            </li>
-        </ul></br>
-        <br><li class="item"><a href=''>-- Events</a></br>
-            <ul class="list">
-                <li class="item"><a href="/AddEvent/"> -- New Event</a></li>
-                <li class="item"><a href='/getEvents/'> -- Add Families</a></li>
-                <li class="item"><a href='/DisplayEventFamily/'> -- Display Events</a></li>
-            </ul>
-            </li>
-        </ul></br>  
-        <br><li class="item"><a href='/about/'> -- About</a></li></br>
-        <br><li class="item"><a href="/flogout"> -- Logout</a></li></br>
-        </div>
+<div id='cssmenu'>
+<ul>
+   <li class='has-sub'><a href='#'><span>Family</span></a>
+       <ul>
+         <li><a href='/family/'><span>NEW</span></a></li>
+         <li><a href='/display/'><span>UPDATE</span></a></li>
+         <li class='last'><a href='/familydisplay/'><span>DISPLAY</span></a></li>
+       </ul>
+        </li>
+   <li class='has-sub'><a href='#'><span>Members</span></a>
+      <ul>
+         <li><a href='/members/'><span>New</span></a></li>         
+         <li class='last'><a href='/memdis/'><span>Display</span></a></li>
+      </ul>
+   </li>
+    <li class='has-sub'><a href='#'><span>Attendance</span></a>
+          <ul>
+            <li><a href='/addclass/'><span>New Class</span></a></li>
+            <li><a href='/classlist/'><span>Attendance</span></a></li>
+            <li class='last'><a href='/checkAttendance/'><span>Check Status</span></a></li>
+          </ul>
+       </li>
+    <li class='has-sub'><a href='#'><span>Events</span></a>
+      <ul>
+        <li><a href='/AddEvent/'><span>New Event</span></a></li>
+        <li><a href='/getEvents/'><span>Add Families</span></a></li>
+        <li class='last'><a href='/DisplayEventFamily/'><span>Display Events</span></a></li>
+      </ul>
+   </li>
+   <li class='active'><a href='/about/'><span>About</span></a>      
+   </li>
+   <li class='last'><a href='/flogout/'><span>Logout</span></a></li>
+   </ul></div></div>
 
-        <div align="center" id="content" style="height:475px;">
+   <div align="center" id="content" style="height:475px;">
         {% block content %}
         {% endblock %}
         </div>

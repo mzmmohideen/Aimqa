@@ -1,7 +1,7 @@
 from django.shortcuts import render
 import json
 from django.http import HttpResponse
-from valuation.models import *
+from library.models import *
 from django.views.decorators.csrf import csrf_exempt
 from valuation.models import *
 from django.contrib.auth import authenticate,login

@@ -43,6 +43,74 @@ class Migration(SchemaMigration):
         ))
         db.send_create_signal(u'library', ['booklend'])
 
+        # Adding model 'Family'
+        db.create_table(u'library_family', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('ration_card', self.gf('django.db.models.fields.CharField')(max_length=50)),
+            ('city', self.gf('django.db.models.fields.CharField')(max_length=50)),
+            ('street', self.gf('django.db.models.fields.CharField')(max_length=50)),
+            ('code', self.gf('django.db.models.fields.IntegerField')(max_length=50)),
+        ))
+        db.send_create_signal(u'library', ['Family'])
+
+        # Adding model 'FamilyMember'
+        db.create_table(u'library_familymember', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('name', self.gf('django.db.models.fields.CharField')(max_length=50)),
+            ('personcode', self.gf('django.db.models.fields.CharField')(max_length=50)),
+            ('family', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['library.Family'])),
+            ('Gender', self.gf('django.db.models.fields.CharField')(max_length=50)),
+            ('Age', self.gf('django.db.models.fields.IntegerField')(max_length=50)),
+            ('qualification', self.gf('django.db.models.fields.CharField')(max_length=50)),
+            ('occupation', self.gf('django.db.models.fields.CharField')(max_length=50)),
+            ('IsStudent', self.gf('django.db.models.fields.BooleanField')(default=False)),
+            ('standard', self.gf('django.db.models.fields.CharField')(max_length=50, null=True, blank=True)),
+            ('institution', self.gf('django.db.models.fields.CharField')(max_length=50, null=True, blank=True)),
+            ('grade', self.gf('django.db.models.fields.CharField')(max_length=50, null=True, blank=True)),
+        ))
+        db.send_create_signal(u'library', ['FamilyMember'])
+
+        # Adding model 'Class'
+        db.create_table(u'library_class', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('subject', self.gf('django.db.models.fields.CharField')(max_length=50)),
+        ))
+        db.send_create_signal(u'library', ['Class'])
+
+        # Adding model 'StudentClass'
+        db.create_table(u'library_studentclass', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('classname', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['library.Class'])),
+            ('student', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['library.FamilyMember'], null=True, blank=True)),
+        ))
+        db.send_create_signal(u'library', ['StudentClass'])
+
+        # Adding model 'Attendance'
+        db.create_table(u'library_attendance', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('classname', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['library.Class'])),
+            ('student', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['library.FamilyMember'])),
+            ('attendance', self.gf('django.db.models.fields.BooleanField')(default=False)),
+            ('date', self.gf('django.db.models.fields.CharField')(default='2014-09-10', max_length=11)),
+        ))
+        db.send_create_signal(u'library', ['Attendance'])
+
+        # Adding model 'Event'
+        db.create_table(u'library_event', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('name', self.gf('django.db.models.fields.CharField')(max_length=50)),
+        ))
+        db.send_create_signal(u'library', ['Event'])
+
+        # Adding model 'EventData'
+        db.create_table(u'library_eventdata', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('event', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['library.Event'])),
+            ('family', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['library.Family'])),
+            ('date', self.gf('django.db.models.fields.CharField')(default='2014-09-10', max_length=11)),
+        ))
+        db.send_create_signal(u'library', ['EventData'])
+
 
     def backwards(self, orm):
         # Deleting model 'user'
@@ -53,6 +121,27 @@ class Migration(SchemaMigration):
 
         # Deleting model 'booklend'
         db.delete_table(u'library_booklend')
+
+        # Deleting model 'Family'
+        db.delete_table(u'library_family')
+
+        # Deleting model 'FamilyMember'
+        db.delete_table(u'library_familymember')
+
+        # Deleting model 'Class'
+        db.delete_table(u'library_class')
+
+        # Deleting model 'StudentClass'
+        db.delete_table(u'library_studentclass')
+
+        # Deleting model 'Attendance'
+        db.delete_table(u'library_attendance')
+
+        # Deleting model 'Event'
+        db.delete_table(u'library_event')
+
+        # Deleting model 'EventData'
+        db.delete_table(u'library_eventdata')
 
 
     models = {
@@ -92,6 +181,14 @@ class Migration(SchemaMigration):
             'model': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
         },
+        u'library.attendance': {
+            'Meta': {'object_name': 'Attendance'},
+            'attendance': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'classname': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['library.Class']"}),
+            'date': ('django.db.models.fields.CharField', [], {'default': "'2014-09-10'", 'max_length': '11'}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'student': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['library.FamilyMember']"})
+        },
         u'library.book': {
             'Meta': {'object_name': 'book'},
             'author': ('django.db.models.fields.CharField', [], {'max_length': '50'}),
@@ -110,6 +207,52 @@ class Migration(SchemaMigration):
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'status': ('django.db.models.fields.CharField', [], {'max_length': '50'}),
             'user': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['library.user']"})
+        },
+        u'library.class': {
+            'Meta': {'object_name': 'Class'},
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'subject': ('django.db.models.fields.CharField', [], {'max_length': '50'})
+        },
+        u'library.event': {
+            'Meta': {'object_name': 'Event'},
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'name': ('django.db.models.fields.CharField', [], {'max_length': '50'})
+        },
+        u'library.eventdata': {
+            'Meta': {'object_name': 'EventData'},
+            'date': ('django.db.models.fields.CharField', [], {'default': "'2014-09-10'", 'max_length': '11'}),
+            'event': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['library.Event']"}),
+            'family': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['library.Family']"}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'})
+        },
+        u'library.family': {
+            'Meta': {'object_name': 'Family'},
+            'city': ('django.db.models.fields.CharField', [], {'max_length': '50'}),
+            'code': ('django.db.models.fields.IntegerField', [], {'max_length': '50'}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'ration_card': ('django.db.models.fields.CharField', [], {'max_length': '50'}),
+            'street': ('django.db.models.fields.CharField', [], {'max_length': '50'})
+        },
+        u'library.familymember': {
+            'Age': ('django.db.models.fields.IntegerField', [], {'max_length': '50'}),
+            'Gender': ('django.db.models.fields.CharField', [], {'max_length': '50'}),
+            'IsStudent': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'Meta': {'object_name': 'FamilyMember'},
+            'family': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['library.Family']"}),
+            'grade': ('django.db.models.fields.CharField', [], {'max_length': '50', 'null': 'True', 'blank': 'True'}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'institution': ('django.db.models.fields.CharField', [], {'max_length': '50', 'null': 'True', 'blank': 'True'}),
+            'name': ('django.db.models.fields.CharField', [], {'max_length': '50'}),
+            'occupation': ('django.db.models.fields.CharField', [], {'max_length': '50'}),
+            'personcode': ('django.db.models.fields.CharField', [], {'max_length': '50'}),
+            'qualification': ('django.db.models.fields.CharField', [], {'max_length': '50'}),
+            'standard': ('django.db.models.fields.CharField', [], {'max_length': '50', 'null': 'True', 'blank': 'True'})
+        },
+        u'library.studentclass': {
+            'Meta': {'object_name': 'StudentClass'},
+            'classname': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['library.Class']"}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'student': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['library.FamilyMember']", 'null': 'True', 'blank': 'True'})
         },
         u'library.user': {
             'Meta': {'object_name': 'user'},
