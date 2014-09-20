@@ -13,7 +13,7 @@
 <!-- <input type="image" src="../static/submit.gif" alt="Submit" onclick="Submit();" align="right" width="48" height="48"> -->
 
 <div><br><a href="#" onclick="subject()">List  of  Families  with  Details ! ! !</a></br>
-  <table  align="center" height="300" width="400" border="1" bgcolor="#FFA500" class='familyclass'>
+  <table  align="center" border="1" bgcolor="#FFA500" class='familyclass'>
     </table></div><br>
   
 </type>
@@ -48,7 +48,7 @@ function subject()
       console.log(response);
 
       var data=response['data'];
-      var str_head = '<th>RATION CARD</th><th>STREET</th><th>CITY</th><th>CODE</th>'
+      var str_head = '<th>RATION CARD</th><th>STREET</th><th>CITY</th><th>&nbsp;&nbsp; PIN CODE</th>'
       var startstr = '';
       var str = '';
       
@@ -59,7 +59,7 @@ function subject()
                var city = data[i]['city'];
                var code = data[i]['code'];
                
-               str += '<tr><td>'+rationid+'</td><td>'+street+'</td><td>'+city+'</td><td>'+code+'</td></tr>';
+               str += '<tr><td>'+rationid+'</td><td> &nbsp; '+street+'</td><td>&nbsp;&nbsp;'+city+'</td><td>&nbsp;&nbsp;&nbsp;'+code+'</td></tr>';
 
                // var res = str.concat('<tr>rationid="rationid"><td >', rationid, '</td><td>', street,'</td><td></td></tr>' city,'</td><td>' code,'</td><td></td></tr>')
             

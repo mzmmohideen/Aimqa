@@ -2,6 +2,7 @@ from django.shortcuts import render
 import json
 from django.http import HttpResponse
 from library.models import *
+from library.models import Family
 from django.views.decorators.csrf import csrf_exempt
 from valuation.models import *
 from django.contrib.auth import authenticate,login
@@ -137,14 +138,14 @@ def memdis(request):
             fami = Family.objects.get(ration_card = ration_card)
             datadump = FamilyMember.objects.filter(family = fami)
             for i in datadump:
-                data.append({'name':i.name,'Age':i.Age,'Gender':i.Gender,'personcode':i.personcode,'qualification':i.qualification,'occupation':i.occupation,'standard':i.standard,'institution':i.institution,'grade':i.grade})
+                data.append({'name':i.name,'Age':i.Age,'Gender':i.Gender,'personcode':i.personcode,'maritalstatus':i.maritalstatus,'qualification':i.qualification,'occupation':i.occupation,'income':i.income,'standard':i.standard,'institution':i.institution,'grade':i.grade})
         return HttpResponse(content=json.dumps(data),content_type='Application/json')
     return render(request, 'memdis.html')
 
 @login_required
 def members(request):
     if request.method == 'POST':
-        post, data, req_field = request.POST, {}, ['rationcard' ,'personcode','name', 'age', 'gender', 'qualification', 'occupation', 'standard', 'institution', 'grade']
+        post, data, req_field = request.POST, {}, ['rationcard' ,'personcode','name', 'age','maritalstatus', 'gender', 'qualification', 'occupation','income', 'standard', 'institution', 'grade']
         for i in req_field:
             data[i] = post['all[%s]'%i]
         family = Family.objects.filter(ration_card=data['rationcard'])
@@ -162,8 +163,10 @@ def members(request):
                                     personcode = data['personcode'],
                                     Gender = data['gender'],
                                     Age = data['age'],
+                                    maritalstatus = data['maritalstatus'],
                                     qualification = data['qualification'],
                                     occupation = data['occupation'],
+                                    income = data['income'],
                                     IsStudent = student_check,
                                     standard = data['standard'], 
                                     institution = data['institution'],
@@ -250,30 +253,78 @@ def classlist(request):
 
 @login_required
 def display(request):
-        
+  data =[]
+  temp = {}
+  if request.method == 'POST': 
+    post = request.POST
+    ration_card = post['rationid']
+    datadump = Family.objects.get(ration_card=ration_card)    
+    data = {'ration_card':datadump.ration_card,'street':datadump.street,'city':datadump.city,'code':datadump.code}
+      
+  # if request.method == 'POST':
+  #     post = request.POST
+  #     ration_card = post['rationid']
+  #     print "ration_card" 
+  #     obj = Family.objects.get(ration_card=ration_card)
+  #     obj.street = post['street']
+  #     obj.city = post['city']
+  #     obj.code = post['code']
+  #     obj.save()
+  #     data = 'saved'      
+      
+    return HttpResponse(content=json.dumps(data),content_type='Application/json')
+  return render(request,'display.html')
+
+
+@login_required
+def update(request):
+      
   if request.method == 'POST':
       post = request.POST
       ration_card = post['rationid']
+      obj = Family.objects.get(ration_card=ration_card)
+      obj.street = post['street']
+      obj.city = post['city']
+      obj.code = post['code']
+      obj.save()
+      data = 'saved'      
+      
+      return HttpResponse(content=json.dumps({'data': data}),content_type='Application/json')
+  return render(request,'display.html')
 
-      if post.has_key('post1'):
-          if not Family.objects.filter(ration_card=ration_card):
-              data = 'none'
-          else:
-              obj = Family.objects.get(ration_card=ration_card)
-              obj.street = post['street']
-              obj.city = post['city']
-              obj.code = post['code']
-              obj.save()
-              data = 'saved'      
-      else:
-          if not Family.objects.filter(ration_card=ration_card):
-              data = 'none'
-          else:
-              family = Family.objects.get(ration_card=ration_card)
-              data = {'ration_card': family.ration_card, 'city': family.city, 'street':family.street, 'code': family.code}
+@login_required
+def memdisplay(request):
+      
+  if request.method == 'POST':
+      post = request.POST
+      ration_card = post['rationid']
+      obj = Family.objects.get(ration_card=ration_card)
+      obj.street = post['street']
+      obj.city = post['city']
+      obj.code = post['code']
+      obj.save()
+      data = 'saved'      
       
       return HttpResponse(content=json.dumps(data),content_type='Application/json')
-  return render(request,'display.html')
+  return render(request,'memupdate.html')
+
+
+@login_required
+def memupdate(request):
+      
+  if request.method == 'POST':
+      post = request.POST
+      ration_card = post['rationid']
+      obj = Family.objects.get(ration_card=ration_card)
+      obj.street = post['street']
+      obj.city = post['city']
+      obj.code = post['code']
+      obj.save()
+      data = 'saved'      
+      
+      return HttpResponse(content=json.dumps(data),content_type='Application/json')
+  return render(request,'memupdate.html')
+
 
 
 @login_required

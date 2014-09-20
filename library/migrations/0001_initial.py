@@ -60,9 +60,11 @@ class Migration(SchemaMigration):
             ('personcode', self.gf('django.db.models.fields.CharField')(max_length=50)),
             ('family', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['library.Family'])),
             ('Gender', self.gf('django.db.models.fields.CharField')(max_length=50)),
+            ('maritalstatus', self.gf('django.db.models.fields.CharField')(max_length=50, null=True)),
             ('Age', self.gf('django.db.models.fields.IntegerField')(max_length=50)),
             ('qualification', self.gf('django.db.models.fields.CharField')(max_length=50)),
             ('occupation', self.gf('django.db.models.fields.CharField')(max_length=50)),
+            ('income', self.gf('django.db.models.fields.CharField')(max_length=50, null=True)),
             ('IsStudent', self.gf('django.db.models.fields.BooleanField')(default=False)),
             ('standard', self.gf('django.db.models.fields.CharField')(max_length=50, null=True, blank=True)),
             ('institution', self.gf('django.db.models.fields.CharField')(max_length=50, null=True, blank=True)),
@@ -91,7 +93,7 @@ class Migration(SchemaMigration):
             ('classname', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['library.Class'])),
             ('student', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['library.FamilyMember'])),
             ('attendance', self.gf('django.db.models.fields.BooleanField')(default=False)),
-            ('date', self.gf('django.db.models.fields.CharField')(default='2014-09-10', max_length=11)),
+            ('date', self.gf('django.db.models.fields.CharField')(default='2014-09-20', max_length=11)),
         ))
         db.send_create_signal(u'library', ['Attendance'])
 
@@ -107,7 +109,7 @@ class Migration(SchemaMigration):
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('event', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['library.Event'])),
             ('family', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['library.Family'])),
-            ('date', self.gf('django.db.models.fields.CharField')(default='2014-09-10', max_length=11)),
+            ('date', self.gf('django.db.models.fields.CharField')(default='2014-09-20', max_length=11)),
         ))
         db.send_create_signal(u'library', ['EventData'])
 
@@ -185,7 +187,7 @@ class Migration(SchemaMigration):
             'Meta': {'object_name': 'Attendance'},
             'attendance': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'classname': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['library.Class']"}),
-            'date': ('django.db.models.fields.CharField', [], {'default': "'2014-09-10'", 'max_length': '11'}),
+            'date': ('django.db.models.fields.CharField', [], {'default': "'2014-09-20'", 'max_length': '11'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'student': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['library.FamilyMember']"})
         },
@@ -220,7 +222,7 @@ class Migration(SchemaMigration):
         },
         u'library.eventdata': {
             'Meta': {'object_name': 'EventData'},
-            'date': ('django.db.models.fields.CharField', [], {'default': "'2014-09-10'", 'max_length': '11'}),
+            'date': ('django.db.models.fields.CharField', [], {'default': "'2014-09-20'", 'max_length': '11'}),
             'event': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['library.Event']"}),
             'family': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['library.Family']"}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'})
@@ -241,7 +243,9 @@ class Migration(SchemaMigration):
             'family': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['library.Family']"}),
             'grade': ('django.db.models.fields.CharField', [], {'max_length': '50', 'null': 'True', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'income': ('django.db.models.fields.CharField', [], {'max_length': '50', 'null': 'True'}),
             'institution': ('django.db.models.fields.CharField', [], {'max_length': '50', 'null': 'True', 'blank': 'True'}),
+            'maritalstatus': ('django.db.models.fields.CharField', [], {'max_length': '50', 'null': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '50'}),
             'occupation': ('django.db.models.fields.CharField', [], {'max_length': '50'}),
             'personcode': ('django.db.models.fields.CharField', [], {'max_length': '50'}),

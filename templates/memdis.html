@@ -19,7 +19,7 @@
 
 Ration ID :<input type="ration_card" id="ration_card" name="ration_card">
 
-<div><br><a href="#" onclick="subject()">Enter Ration_ID and Click</a></br>
+<div><br><a href="#" onclick="subject()"><input type="button" value="Click here to Display"></a></br>
   <table  align="center" border="1" bgcolor="#FFA500" class='familyclass'>
     </table></div><br>
 
@@ -44,7 +44,7 @@ function subject(){
 
      	 if (response == 'none'){alert('Ration Id does not exists !')}
        else{
-           var str_head = '<th> NAME </th><th> AGE </th><th> GENDER </th><th> PERSONCODE </th><th> QUALIFICATION </th><th> OCCUPATION </th><th> STANDARD </th><th> INSTITUTION </th><th> GRADE </th>'
+           var str_head = '<th> NAME </th><th> AGE </th><th> GENDER </th><th> PERSONCODE </th><th> MARITAL STATUS </th>&nbsp;&nbsp;<th> QUALIFICATION </th><th> OCCUPATION </th><th>MONTHLY  INCOME </th><th> STANDARD </th><th> INSTITUTION </th><th> GRADE </th>'
         	 var startstr = '';
            var str = '';
            // console.log(data)
@@ -52,15 +52,17 @@ function subject(){
                  { 
                  var name = data[i]['name'];
                  var personcode = data[i]['personcode'];
+                 var maritalstatus = data[i]['maritalstatus'];
                  var Age = data[i]['Age'];
                  var Gender = data[i]['Gender'];
                  var qualification = data[i]['qualification'];
                  var occupation = data[i]['occupation'];
+                 var income = data[i]['income'];
                  var standard = data[i]['standard'];
                  var institution = data[i]['institution'];
                  var grade = data[i]['grade'];
                  
-                 str += '<tr><td>'+name+'</td><td>'+Age+'</td><td>'+Gender+'</td><td>'+personcode+'</td><td>'+qualification+'</td><td>'+occupation+'</td><td>'+standard+'</td><td>'+institution+'</td><td>'+grade+'</td></tr>';              
+                 str += '<tr><td>'+name+'</td><td>'+Age+'</td><td>'+Gender+'</td><td>'+personcode+'</td><td>'+maritalstatus+'</td><td>'+qualification+'</td><td>'+occupation+'</td><td>'+income+'</td><td>'+standard+'</td><td>'+institution+'</td><td>'+grade+'</td></tr>';              
                  }
 
                  var html = '<table><tr>'+str_head +'</tr>'+ str+'</table>';

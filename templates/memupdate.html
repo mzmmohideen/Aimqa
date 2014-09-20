@@ -27,7 +27,7 @@
 <!-- form id="Form"> -->
 
 <div><br><button id="save"  type="save" onclick="save()">Update</button></br></div>
-<br/><button type="button" id="delete" name="delete" onclick="Delete()"><b>Delete</b></button>	
+<br/><button type="button" id="delete" name="delete" onclick="Delete()"><b>Delete</b></button>  
 
 
 
@@ -47,7 +47,7 @@ function search(){
 
 	$.ajax({
 		type:'POST',
-		url:'/display/',
+		url:'/memdisplay/',
 		data:{
 			rationid:rationid,
 			csrfmiddlewaretoken:'{{csrf_token}}',
@@ -59,9 +59,9 @@ function search(){
 
 	if(response=='none'){alert('RATION ID DOES NOT EXISTS !!!!!!!!!')}
   else{
-  document.getElementById('code').value=response.code;
-  document.getElementById('street').value=response.street;
-  document.getElementById('city').value=response.city;
+  document.getElementById('code').value=response.value;
+  document.getElementById('street').value=response.value;
+  document.getElementById('city').value=response.value;
   }
 	}
 	});
@@ -87,7 +87,7 @@ function search(){
 
 	$.ajax({
                 type: "POST",
-                url: '/update/',
+                url: '/memupdate/',
                 data: {
 			            rationid: rationid,
 			            street: street,
@@ -124,7 +124,7 @@ function search(){
   // alert('sss')
   $.ajax({
                 type: "POST",
-                url: '/DeleteFamily/',
+                url: '/memdelete/',
                 data: {
                   		rationid: rationid,
 			            street: street,
@@ -145,13 +145,11 @@ function search(){
         document.getElementById("code").value='';
         document.getElementById("picture").value='';  
 
-}	
+}
+
 
 </script>
 </body>
 </html>
 
 {% endblock %}
-
-
-
