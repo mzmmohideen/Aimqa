@@ -93,7 +93,7 @@ class Migration(SchemaMigration):
             ('classname', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['library.Class'])),
             ('student', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['library.FamilyMember'])),
             ('attendance', self.gf('django.db.models.fields.BooleanField')(default=False)),
-            ('date', self.gf('django.db.models.fields.CharField')(default='2014-09-20', max_length=11)),
+            ('date', self.gf('django.db.models.fields.CharField')(default='2014-12-01', max_length=11)),
         ))
         db.send_create_signal(u'library', ['Attendance'])
 
@@ -109,7 +109,7 @@ class Migration(SchemaMigration):
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('event', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['library.Event'])),
             ('family', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['library.Family'])),
-            ('date', self.gf('django.db.models.fields.CharField')(default='2014-09-20', max_length=11)),
+            ('date', self.gf('django.db.models.fields.CharField')(default='2014-12-01', max_length=11)),
         ))
         db.send_create_signal(u'library', ['EventData'])
 
@@ -165,7 +165,7 @@ class Migration(SchemaMigration):
             'date_joined': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
             'email': ('django.db.models.fields.EmailField', [], {'max_length': '75', 'blank': 'True'}),
             'first_name': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
-            'groups': ('django.db.models.fields.related.ManyToManyField', [], {'to': u"orm['auth.Group']", 'symmetrical': 'False', 'blank': 'True'}),
+            'groups': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'related_name': "u'user_set'", 'blank': 'True', 'to': u"orm['auth.Group']"}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'is_active': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
             'is_staff': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
@@ -173,7 +173,7 @@ class Migration(SchemaMigration):
             'last_login': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
             'last_name': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
             'password': ('django.db.models.fields.CharField', [], {'max_length': '128'}),
-            'user_permissions': ('django.db.models.fields.related.ManyToManyField', [], {'to': u"orm['auth.Permission']", 'symmetrical': 'False', 'blank': 'True'}),
+            'user_permissions': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'related_name': "u'user_set'", 'blank': 'True', 'to': u"orm['auth.Permission']"}),
             'username': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '30'})
         },
         u'contenttypes.contenttype': {
@@ -187,7 +187,7 @@ class Migration(SchemaMigration):
             'Meta': {'object_name': 'Attendance'},
             'attendance': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'classname': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['library.Class']"}),
-            'date': ('django.db.models.fields.CharField', [], {'default': "'2014-09-20'", 'max_length': '11'}),
+            'date': ('django.db.models.fields.CharField', [], {'default': "'2014-12-01'", 'max_length': '11'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'student': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['library.FamilyMember']"})
         },
@@ -222,7 +222,7 @@ class Migration(SchemaMigration):
         },
         u'library.eventdata': {
             'Meta': {'object_name': 'EventData'},
-            'date': ('django.db.models.fields.CharField', [], {'default': "'2014-09-20'", 'max_length': '11'}),
+            'date': ('django.db.models.fields.CharField', [], {'default': "'2014-12-01'", 'max_length': '11'}),
             'event': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['library.Event']"}),
             'family': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['library.Family']"}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'})

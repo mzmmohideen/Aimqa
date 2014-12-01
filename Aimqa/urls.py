@@ -3,7 +3,7 @@ from django.contrib import admin
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin
 # admin.autodiscover()
-from aslgc.aslgc.urls import *
+# from aslgc.aslgc.urls import *
 from library.views import *
 from valuation.views import *
 urlpatterns = patterns('',

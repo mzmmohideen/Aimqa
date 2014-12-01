@@ -4,7 +4,7 @@ from django.http import HttpResponse
 from library.models import *
 from library.models import Family
 from django.views.decorators.csrf import csrf_exempt
-from valuation.models import *
+# from valuation.models import *
 from django.contrib.auth import authenticate,login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
